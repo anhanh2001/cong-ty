@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="col-md-8">
     <div class="row">
       <div class="col align-self-start"></div>
       <div class="col align-self-center"></div>
@@ -86,153 +86,162 @@
         </tr>
       </tbody>
     </table>
-  </div>
-  <div
-    class="modal fade"
-    id="exampleModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Thêm Sản Phẩm</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
 
-        <div class="modal-body">
-          <div class="d-flex flex-row bd-highlight mb-3">
-            <div class="p-2 w-50 bd-highlight">
-              <div class="input-group mb-3">
-                <span class="input-group-text">Tên Sản Phẩm</span>
-                <input type="text" class="form-control" v-model="data.name" />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Giá Sản Phẩm</span>
-                <input type="text" class="form-control" v-model="data.price" />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Mô Tả Sản Phẩm</span>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="data.description"
-                />
-              </div>
-              <!-- <div class="input-group mb-3">
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Thêm Sản Phẩm</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <div class="d-flex flex-row bd-highlight mb-3">
+              <div class="p-2 w-50 bd-highlight">
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Tên Sản Phẩm</span>
+                  <input type="text" class="form-control" v-model="data.name" />
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Giá Sản Phẩm</span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="data.price"
+                  />
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Mô Tả Sản Phẩm</span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="data.description"
+                  />
+                </div>
+                <!-- <div class="input-group mb-3">
                 <span class="input-group-text">Ảnh Sản Phẩm</span>
                 <input type="text" class="form-control" v-model="data.avatar" />
               </div> -->
+              </div>
+              <div class="p-2 w-50 bd-highlight">
+                <p for="" class="mb-3 fs-5">Ảnh Sản Phẩm</p>
+                <img style="height: 250px; width: 250px" :src="nonAvt" />
+                <input class="m-2" type="file" @change="imageUpload" />
+              </div>
             </div>
-            <div class="p-2 w-50 bd-highlight">
-              <p for="" class="mb-3 fs-5">Ảnh Sản Phẩm</p>
-              <img style="height: 250px; width: 250px" :src="nonAvt" />
-              <input class="m-2" type="file" @change="imageUpload" />
-            </div>
+            <button
+              type="button"
+              @click="createProduct()"
+              class="btn btn-primary"
+            >
+              Create
+            </button>
           </div>
-          <button
-            type="button"
-            @click="createProduct()"
-            class="btn btn-primary"
-          >
-            Create
-          </button>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    class="modal fade"
-    id="editModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Sửa Sản Phẩm</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sửa Sản Phẩm</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
 
-        <div class="modal-body">
-          <div class="d-flex flex-row bd-highlight mb-3">
-            <div class="p-2 w-50 bd-highlight">
-              <div class="input-group mb-3">
-                <span class="input-group-text">Tên Sản Phẩm</span>
-                <input type="text" class="form-control" v-model="data.name" />
+          <div class="modal-body">
+            <div class="d-flex flex-row bd-highlight mb-3">
+              <div class="p-2 w-50 bd-highlight">
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Tên Sản Phẩm</span>
+                  <input type="text" class="form-control" v-model="data.name" />
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Giá Sản Phẩm</span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="data.price"
+                  />
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Mô Tả Sản Phẩm</span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="data.description"
+                  />
+                </div>
               </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Giá Sản Phẩm</span>
-                <input type="text" class="form-control" v-model="data.price" />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Mô Tả Sản Phẩm</span>
-                <input
-                  type="text"
-                  class="form-control"
-                  v-model="data.description"
-                />
+              <div class="p-2 w-50 bd-highlight">
+                <p for="" class="mb-3 fs-5">Ảnh Sản Phẩm</p>
+                <img style="height: 250px; width: 250px" :src="nonAvt" />
+                <input class="m-2" type="file" @change="imageUpload" />
               </div>
             </div>
-            <div class="p-2 w-50 bd-highlight">
-              <p for="" class="mb-3 fs-5">Ảnh Sản Phẩm</p>
-              <img style="height: 250px; width: 250px" :src="nonAvt" />
-              <input class="m-2" type="file" @change="imageUpload" />
-            </div>
+            <button
+              type="button"
+              @click="updateProduct(data.id)"
+              class="btn btn-primary"
+            >
+              Update
+            </button>
           </div>
-          <button
-            type="button"
-            @click="updateProduct(data.id)"
-            class="btn btn-primary"
-          >
-            Update
-          </button>
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Xoá Sản Phẩm</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <p>Bạn có chắc muốn xoá sản phẩm này không ?</p>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Huỷ
-          </button>
-          <button
-            type="button"
-            class="btn btn-danger"
-            @click="deleteProduct(id)"
-          >
-            <i class="bi bi-trash3"></i> Xoá
-          </button>
+    <div class="modal" id="deleteModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Xoá Sản Phẩm</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>Bạn có chắc muốn xoá sản phẩm này không ?</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Huỷ
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              @click="deleteProduct(id)"
+            >
+              <i class="bi bi-trash3"></i> Xoá
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -253,7 +262,7 @@ export default {
     };
   },
   methods: {
-    async load() {
+    async getProducts() {
       const response = await ProductRepository.get();
       this.data = response.data;
     },
@@ -270,7 +279,7 @@ export default {
         this.nonAvt,
         this.data.description
       ).then(() => {
-        this.load();
+        this.getProducts();
       });
     },
     async update(id) {
@@ -289,7 +298,7 @@ export default {
         this.data.description,
         id
       ).then(() => {
-        this.load();
+        this.getProducts();
       });
     },
     deleteId(id) {
@@ -297,20 +306,15 @@ export default {
     },
     deleteProduct(id) {
       ProductRepository.deleteProduct(id).then(() => {
-        this.load();
+        this.getProducts();
       });
     },
     imageUpload(event) {
       this.nonAvt = "image/" + event.target.files[0].name;
-      // let reader = new FileReader();
-      // reader.readAsDataURL(image);
-      // reader.onload = event => {
-      //   this.nonAvt = event.target.result;
-      // }
     },
   },
   mounted() {
-    this.load();
+    this.getProducts();
   },
   computed: {
     resultQuery() {

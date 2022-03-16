@@ -1,35 +1,36 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "@/components/HelloWorld.vue";
+import { RouterLink, RouterView} from "vue-router";
 </script>
 
 <template>
-  <ul class="nav nav-pills">
-    <li class="nav-item">
-      <RouterLink class="nav-link" aria-current="page" to="/"
-        >Home</RouterLink
-      >
-    </li>
-    <li class="nav-item">
-      <RouterLink class="nav-link" to="/products" v-if="user"
-        >Admin Product</RouterLink
-      >
-    </li>
-    <li class="nav-item">
-      <RouterLink class="nav-link" to="/users" v-if="user"
-        >Admin User</RouterLink
-      >
-    </li>
-    <li class="nav-item">
-      <RouterLink class="nav-link" to="/login" v-if="!user">Login</RouterLink>
-    </li>
-    <li class="nav-item">
-      <RouterLink class="nav-link" @click="logout()" v-if="user" to=""
-        >Logout</RouterLink
-      >
-    </li>
-  </ul>
-  <RouterView />
+  <header class="d-flex justify-content-center py-3">
+    <ul class="nav nav-pills mb-3">
+      <li class="nav-item">
+        <RouterLink class="nav-link" active-class="active" to="/">Home</RouterLink>
+      </li>
+      <li class="nav-item">
+        <RouterLink class="nav-link" active-class="active" to="/products" v-if="user"
+          >Admin Product</RouterLink
+        >
+      </li>
+      <li class="nav-item">
+        <RouterLink class="nav-link" active-class="active" to="/users" v-if="user"
+          >Admin User</RouterLink
+        >
+      </li>
+      <li class="nav-item">
+        <RouterLink class="nav-link" active-class="active" to="/login" v-if="!user">Login</RouterLink>
+      </li>
+      <li class="nav-item">
+        <RouterLink class="nav-link" @click="logout()" v-if="user" to=""
+          >Logout</RouterLink
+        >
+      </li>
+    </ul>
+  </header>
+  <main>
+    <RouterView />
+  </main>
 </template>
 <script>
 export default {
@@ -38,12 +39,6 @@ export default {
       user: null,
     };
   },
-  // watch: {
-  //   user(val) {
-  //       console.log(this.user);
-  //   },
-  //   // sửa phần login
-  // },
   methods: {
     checkLogin() {
       if (localStorage.getItem("email") != null) {

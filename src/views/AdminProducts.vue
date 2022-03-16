@@ -1,7 +1,3 @@
-<script setup>
-import TheWelcome from "@/components/TheWelcome.vue";
-</script>
-
 <template>
   <div class="container">
     <div class="row">
@@ -9,7 +5,8 @@ import TheWelcome from "@/components/TheWelcome.vue";
       <div class="col align-self-center"></div>
       <div class="col align-self-end">
         <input
-          type="search" v-model="searchQuery"
+          type="search"
+          v-model="searchQuery"
           class="form-control mb-2"
           placeholder="Tìm kiếm..."
           aria-label="Search"
@@ -30,7 +27,7 @@ import TheWelcome from "@/components/TheWelcome.vue";
           class="btn btn-success m-2 fload-end"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
-          @click="createButton()"
+          @click="create()"
         >
           Tạo Mới
         </button>
@@ -48,11 +45,16 @@ import TheWelcome from "@/components/TheWelcome.vue";
               class="btn btn-warning"
               data-bs-toggle="modal"
               data-bs-target="#editModal"
-              @click="updateClick(item.id)"
+              @click="update(item.id)"
             >
               Sửa
             </button>
-            <button class="btn btn-danger" @click="deleteClick(item.id)">
+            <button
+              class="btn btn-danger"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteModal"
+              @click="deleteId(item.id)"
+            >
               Xoá
             </button>
           </td>
@@ -72,11 +74,11 @@ import TheWelcome from "@/components/TheWelcome.vue";
               class="btn btn-warning"
               data-bs-toggle="modal"
               data-bs-target="#editModal"
-              @click="updateClick(item.id)"
+              @click="update(item.id)"
             >
               Sửa
             </button>
-            <button class="btn btn-danger" @click="deleteClick(item.id)">
+            <button class="btn btn-danger" @click="deleteProduct(item.id)">
               Xoá
             </button>
           </td>
@@ -134,7 +136,11 @@ import TheWelcome from "@/components/TheWelcome.vue";
               <input class="m-2" type="file" @change="imageUpload" />
             </div>
           </div>
-          <button type="button" @click="createClick()" class="btn btn-primary">
+          <button
+            type="button"
+            @click="createProduct()"
+            class="btn btn-primary"
+          >
             Create
           </button>
         </div>
@@ -188,7 +194,7 @@ import TheWelcome from "@/components/TheWelcome.vue";
           </div>
           <button
             type="button"
-            @click="createUpdate(data.id)"
+            @click="updateProduct(data.id)"
             class="btn btn-primary"
           >
             Update
@@ -197,9 +203,45 @@ import TheWelcome from "@/components/TheWelcome.vue";
       </div>
     </div>
   </div>
+  <div class="modal" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Xoá Sản Phẩm</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Bạn có chắc muốn xoá sản phẩm này không ?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Huỷ
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            @click="deleteProduct(id)"
+          >
+            <i class="bi bi-trash3"></i> Xoá
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import axios from "axios";
+import { Factory } from "../repository/Factory.js";
+const ProductRepository = Factory.get("products");
 export default {
   name: "home",
   data() {
@@ -207,68 +249,56 @@ export default {
       data: [],
       nonAvt: "http://localhost:3000/image/user.jpg",
       searchQuery: null,
+      id: null,
     };
   },
   methods: {
-    load() {
-      axios
-        .get("https://622a204cbe12fc4538b2f049.mockapi.io/products")
-        .then((response) => {
-          this.data = response.data;
-        });
+    async load() {
+      const response = await ProductRepository.get();
+      this.data = response.data;
     },
-    createButton() {
+    create() {
       this.data.name = "";
       this.data.price = "";
       this.data.description = "";
+      this.nonAvt = "http://localhost:3000/image/user.jpg";
     },
-    createClick() {
-      axios
-        .post("https://622a204cbe12fc4538b2f049.mockapi.io/products", {
-          name: this.data.name,
-          price: this.data.price,
-          avatar: this.nonAvt,
-          description: this.data.description,
-        })
-        .then((response) => {
-          this.load();
-          alert(response.statusText);
-        });
+    createProduct() {
+      ProductRepository.createProduct(
+        this.data.name,
+        this.data.price,
+        this.nonAvt,
+        this.data.description
+      ).then(() => {
+        this.load();
+      });
     },
-    updateClick(id) {
-      axios
-        .get("https://622a204cbe12fc4538b2f049.mockapi.io/products/" + id)
-        .then((response) => {
-          this.data.name = response.data.name;
-          this.data.price = response.data.price;
-          this.data.description = response.data.description;
-          this.nonAvt = response.data.avatar;
-          this.data.id = id;
-        });
+    async update(id) {
+      const response = await ProductRepository.getProduct(id);
+      this.data.name = response.data.name;
+      this.data.price = response.data.price;
+      this.data.description = response.data.description;
+      this.nonAvt = response.data.avatar;
+      this.data.id = id;
     },
-    createUpdate(id) {
-      axios
-        .put("https://622a204cbe12fc4538b2f049.mockapi.io/products/" + id, {
-          name: this.data.name,
-          price: this.data.price,
-          avatar: this.nonAvt,
-          description: this.data.description,
-        })
-        .then((response) => {
-          this.load();
-          alert(response.statusText);
-        });
+    updateProduct(id) {
+      ProductRepository.updateProduct(
+        this.data.name,
+        this.data.price,
+        this.nonAvt,
+        this.data.description,
+        id
+      ).then(() => {
+        this.load();
+      });
     },
-    deleteClick(id) {
-      if (!confirm("Are you sure?")) {
-        return;
-      }
-      axios
-        .delete("https://622a204cbe12fc4538b2f049.mockapi.io/products/" + id)
-        .then((response) => {
-          this.load();
-          alert(response.statusText);
-        });
+    deleteId(id) {
+      this.id = id;
+    },
+    deleteProduct(id) {
+      ProductRepository.deleteProduct(id).then(() => {
+        this.load();
+      });
     },
     imageUpload(event) {
       this.nonAvt = "image/" + event.target.files[0].name;

@@ -5,7 +5,8 @@
       <div class="col align-self-center"></div>
       <div class="col align-self-end">
         <input
-          type="search" v-model="searchQuery"
+          type="search"
+          v-model="searchQuery"
           class="form-control mb-2"
           placeholder="Tìm kiếm..."
           aria-label="Search"
@@ -25,7 +26,7 @@
           class="btn btn-success m-2 fload-end"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
-          @click="createButton()"
+          @click="create()"
         >
           Tạo Mới
         </button>
@@ -42,11 +43,16 @@
               class="btn btn-warning"
               data-bs-toggle="modal"
               data-bs-target="#editModal"
-              @click="updateClick(item.id)"
+              @click="update(item.id)"
             >
               Sửa
             </button>
-            <button class="btn btn-danger" @click="deleteClick(item.id)">
+            <button
+              class="btn btn-danger"
+              data-bs-toggle="modal"
+              data-bs-target="#deleteModal"
+              @click="deleteId(item.id)"
+            >
               Xoá
             </button>
           </td>
@@ -64,13 +70,11 @@
               class="btn btn-warning"
               data-bs-toggle="modal"
               data-bs-target="#editModal"
-              @click="updateClick(item.id)"
+              @click="update(item.id)"
             >
               Sửa
             </button>
-            <button class="btn btn-danger" @click="deleteClick(item.id)">
-              Xoá
-            </button>
+            <button class="btn btn-danger" @click="deleteUser(id)">Xoá</button>
           </td>
         </tr>
       </tbody>
@@ -121,7 +125,7 @@
               <input class="m-2" type="file" @change="imageUpload" />
             </div>
           </div>
-          <button type="button" @click="createClick()" class="btn btn-primary">
+          <button type="button" @click="createUser()" class="btn btn-primary">
             Create
           </button>
         </div>
@@ -177,7 +181,7 @@
           </div>
           <button
             type="button"
-            @click="createUpdate(data.id)"
+            @click="updateUser(data.id)"
             class="btn btn-primary"
           >
             Update
@@ -186,80 +190,100 @@
       </div>
     </div>
   </div>
+  <div class="modal" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Xoá Người Dùng</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Bạn có chắc muốn xoá người dùng này không ?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Huỷ
+          </button>
+          <button type="button" class="btn btn-danger" @click="deleteUser(id)">
+            <i class="bi bi-trash3"></i>
+            Xoá
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import axios from "axios";
+import { Factory } from "../repository/Factory.js";
+const UserRepository = Factory.get("users");
 export default {
   data() {
     return {
       data: [],
       nonAvt: "http://localhost:3000/image/user.jpg",
       searchQuery: null,
+      id: null,
     };
   },
   methods: {
-    load() {
-      axios
-        .get("https://622a204cbe12fc4538b2f049.mockapi.io/users")
-        .then((response) => {
-          this.data = response.data;
-        });
+    async load() {
+      const users = await UserRepository.get();
+      this.data = users.data;
     },
-    createButton() {
+    create() {
       this.data.name = "";
       this.data.email = "";
       this.data.password = "";
+      this.nonAvt = "http://localhost:3000/image/user.jpg";
     },
-    createClick() {
-      axios
-        .post("https://622a204cbe12fc4538b2f049.mockapi.io/users", {
-          name: this.data.name,
-          email: this.data.email,
-          avatar: this.nonAvt,
-          password: this.data.password,
-        })
-        .then((response) => {
-          this.load();
-          alert(response.statusText);
-        });
+    createUser() {
+      UserRepository.createUser(
+        this.data.name,
+        this.data.email,
+        this.nonAvt,
+        this.data.password
+      ).then(() => {
+        this.load();
+      });
     },
-    updateClick(id) {
-      axios
-        .get("https://622a204cbe12fc4538b2f049.mockapi.io/users/" + id)
-        .then((response) => {
-          this.data.name = response.data.name;
-          this.data.email = response.data.email;
-          this.data.avatar = response.data.avatar;
-          this.nonAvt = response.data.avatar;
-          this.data.password = response.data.password;
-          this.data.id = id;
-        });
+    async update(id) {
+      const response = await UserRepository.getUser(id);
+      this.data.name = response.data.name;
+      this.data.email = response.data.email;
+      this.data.avatar = response.data.avatar;
+      this.nonAvt = response.data.avatar;
+      this.data.password = response.data.password;
+      this.data.id = id;
     },
-    createUpdate(id) {
-      axios
-        .put("https://622a204cbe12fc4538b2f049.mockapi.io/users/" + id, {
-          name: this.data.name,
-          email: this.data.email,
-          avatar: this.nonAvt,
-          password: this.data.password,
-        })
-        .then((response) => {
-          this.load();
-          alert(response.statusText);
-        });
+    updateUser(id) {
+      UserRepository.updateUser(
+        this.data.name,
+        this.data.email,
+        this.nonAvt,
+        this.data.password,
+        id
+      ).then(() => {
+        this.load();
+      });
     },
-    deleteClick(id) {
-      if (!confirm("Are you sure?")) {
-        return;
-      }
-      axios
-        .delete("https://622a204cbe12fc4538b2f049.mockapi.io/users/" + id)
-        .then((response) => {
-          this.load();
-          alert(response.statusText);
-        });
+    deleteId(id) {
+      this.id = id;
     },
-
+    deleteUser(id) {
+      UserRepository.deleteUser(id).then(() => {
+        this.load();
+      });
+    },
     imageUpload(event) {
       this.nonAvt = "image/" + event.target.files[0].name;
     },

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="col-md-8">
     <div class="row">
       <div class="col align-self-start"></div>
       <div class="col align-self-center"></div>
@@ -79,144 +79,157 @@
         </tr>
       </tbody>
     </table>
-  </div>
-  <div
-    class="modal fade"
-    id="exampleModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Thêm Người Dùng</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
 
-        <div class="modal-body">
-          <div class="d-flex flex-row bd-highlight mb-3">
-            <div class="p-2 w-50 bd-highlight">
-              <div class="input-group mb-3">
-                <span class="input-group-text">Tên Người Dùng</span>
-                <input type="text" class="form-control" v-model="data.name" />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Email Người Dùng</span>
-                <input type="text" class="form-control" v-model="data.email" />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Mật Khẩu</span>
-                <input
-                  type="password"
-                  class="form-control"
-                  v-model="data.password"
-                />
-              </div>
-            </div>
-            <div class="p-2 w-50 bd-highlight">
-              <p for="" class="mb-3 fs-4">Ảnh Người Dùng</p>
-              <img style="height: 250px; width: 250px" :src="nonAvt" />
-              <input class="m-2" type="file" @change="imageUpload" />
-            </div>
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Thêm Người Dùng</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
-          <button type="button" @click="createUser()" class="btn btn-primary">
-            Create
-          </button>
+
+          <div class="modal-body">
+            <div class="d-flex flex-row bd-highlight mb-3">
+              <div class="p-2 w-50 bd-highlight">
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Tên Người Dùng</span>
+                  <input type="text" class="form-control" v-model="data.name" />
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Email Người Dùng</span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="data.email"
+                  />
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Mật Khẩu</span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    v-model="data.password"
+                  />
+                </div>
+              </div>
+              <div class="p-2 w-50 bd-highlight">
+                <p for="" class="mb-3 fs-4">Ảnh Người Dùng</p>
+                <img style="height: 250px; width: 250px" :src="nonAvt" />
+                <input class="m-2" type="file" @change="imageUpload" />
+              </div>
+            </div>
+            <button type="button" @click="createUser()" class="btn btn-primary">
+              Create
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div
-    class="modal fade"
-    id="editModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
-            Sửa Thông Tin Người Dùng
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-
-        <div class="modal-body">
-          <div class="d-flex flex-row bd-highlight mb-3">
-            <div class="p-2 w-50 bd-highlight">
-              <div class="input-group mb-3">
-                <span class="input-group-text">Tên Người Dùng</span>
-                <input type="text" class="form-control" v-model="data.name" />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Email Người Dùng</span>
-                <input type="text" class="form-control" v-model="data.email" />
-              </div>
-              <div class="input-group mb-3">
-                <span class="input-group-text">Mật Khẩu Mới</span>
-                <input
-                  type="password"
-                  class="form-control"
-                  v-model="data.password"
-                />
-              </div>
-            </div>
-            <div class="p-2 w-50 bd-highlight">
-              <p for="" class="mb-3 fs-4">Ảnh Người Dùng</p>
-              <img style="height: 250px; width: 250px" :src="nonAvt" />
-              <input class="m-2" type="file" @change="imageUpload" />
-            </div>
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Sửa Thông Tin Người Dùng
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
-          <button
-            type="button"
-            @click="updateUser(data.id)"
-            class="btn btn-primary"
-          >
-            Update
-          </button>
+
+          <div class="modal-body">
+            <div class="d-flex flex-row bd-highlight mb-3">
+              <div class="p-2 w-50 bd-highlight">
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Tên Người Dùng</span>
+                  <input type="text" class="form-control" v-model="data.name" />
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Email Người Dùng</span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="data.email"
+                  />
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Mật Khẩu Mới</span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    v-model="data.password"
+                  />
+                </div>
+              </div>
+              <div class="p-2 w-50 bd-highlight">
+                <p for="" class="mb-3 fs-4">Ảnh Người Dùng</p>
+                <img style="height: 250px; width: 250px" :src="nonAvt" />
+                <input class="m-2" type="file" @change="imageUpload" />
+              </div>
+            </div>
+            <button
+              type="button"
+              @click="updateUser(data.id)"
+              class="btn btn-primary"
+            >
+              Update
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="modal" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Xoá Người Dùng</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <p>Bạn có chắc muốn xoá người dùng này không ?</p>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Huỷ
-          </button>
-          <button type="button" class="btn btn-danger" @click="deleteUser(id)">
-            <i class="bi bi-trash3"></i>
-            Xoá
-          </button>
+    <div class="modal" id="deleteModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Xoá Người Dùng</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>Bạn có chắc muốn xoá người dùng này không ?</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Huỷ
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              @click="deleteUser(id)"
+            >
+              <i class="bi bi-trash3"></i>
+              Xoá
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -236,7 +249,7 @@ export default {
     };
   },
   methods: {
-    async load() {
+    async getUsers() {
       const users = await UserRepository.get();
       this.data = users.data;
     },
@@ -253,7 +266,7 @@ export default {
         this.nonAvt,
         this.data.password
       ).then(() => {
-        this.load();
+        this.getUsers();
       });
     },
     async update(id) {
@@ -273,7 +286,7 @@ export default {
         this.data.password,
         id
       ).then(() => {
-        this.load();
+        this.getUsers();
       });
     },
     deleteId(id) {
@@ -281,7 +294,7 @@ export default {
     },
     deleteUser(id) {
       UserRepository.deleteUser(id).then(() => {
-        this.load();
+        this.getUsers();
       });
     },
     imageUpload(event) {
@@ -289,7 +302,7 @@ export default {
     },
   },
   mounted() {
-    this.load();
+    this.getUsers();
   },
   computed: {
     resultQuery() {

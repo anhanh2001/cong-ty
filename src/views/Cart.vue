@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="col-md-8">
     <table
       class="table table-striped"
       border="1px"
